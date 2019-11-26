@@ -119,9 +119,9 @@ function usesBoolean() {
 }
 
 function pushWithSnapshot() {
-  local TIMESTAMP=`date +%Y%m%d%H%M%S`
+  local DATE=`date +%Y%m%d`
   local SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-6)
-  local SNAPSHOT_TAG="${TIMESTAMP}${SHORT_SHA}"
+  local SNAPSHOT_TAG="${DATE}${SHORT_SHA}"
   local SHA_DOCKER_NAME="${INPUT_NAME}:${SNAPSHOT_TAG}"
   docker build $BUILDPARAMS -t ${DOCKERNAME} -t ${SHA_DOCKER_NAME} .
   docker push ${DOCKERNAME}

@@ -130,20 +130,20 @@ teardown() {
 
   declare -A -p MOCK_RETURNS=(
   ['/usr/local/bin/docker']=""
-  ['/usr/bin/date']="197001010101"
+  ['/usr/bin/date']="19700101"
   ) > mockReturns
 
   run /entrypoint.sh
 
   expectStdOut "
-::set-output name=snapshot-tag::19700101010112169e
+::set-output name=snapshot-tag::1970010112169e
 ::set-output name=tag::latest"
 
   expectMockCalled "/usr/local/bin/docker login -u USERNAME --password-stdin
-/usr/bin/date +%Y%m%d%H%M%S
-/usr/local/bin/docker build -t my/repository:latest -t my/repository:19700101010112169e .
+/usr/bin/date +%Y%m%d
+/usr/local/bin/docker build -t my/repository:latest -t my/repository:1970010112169e .
 /usr/local/bin/docker push my/repository:latest
-/usr/local/bin/docker push my/repository:19700101010112169e
+/usr/local/bin/docker push my/repository:1970010112169e
 /usr/local/bin/docker logout"
 }
 
@@ -153,7 +153,7 @@ teardown() {
 
   declare -A -p MOCK_RETURNS=(
   ['/usr/local/bin/docker']=""
-  ['/usr/bin/date']="197001010101"
+  ['/usr/bin/date']=""
   ) > mockReturns
 
   run /entrypoint.sh
@@ -174,39 +174,39 @@ teardown() {
 
   declare -A -p MOCK_RETURNS=(
   ['/usr/local/bin/docker']=""
-  ['/usr/bin/date']="197001010101"
+  ['/usr/bin/date']="19700101"
   ) > mockReturns
 
   run /entrypoint.sh
 
   expectMockCalled "/usr/local/bin/docker login -u USERNAME --password-stdin
 /usr/local/bin/docker pull my/repository:latest
-/usr/bin/date +%Y%m%d%H%M%S
-/usr/local/bin/docker build --cache-from my/repository:latest -t my/repository:latest -t my/repository:19700101010112169e .
+/usr/bin/date +%Y%m%d
+/usr/local/bin/docker build --cache-from my/repository:latest -t my/repository:latest -t my/repository:1970010112169e .
 /usr/local/bin/docker push my/repository:latest
-/usr/local/bin/docker push my/repository:19700101010112169e
+/usr/local/bin/docker push my/repository:1970010112169e
 /usr/local/bin/docker logout"
 }
 
 @test "it does not use the cache for building when pulling the former image failed" {
   export GITHUB_SHA='12169ed809255604e557a82617264e9c373faca7'
-  export MOCK_DATE='197001010101'
+  export MOCK_DATE='19700101'
   export INPUT_SNAPSHOT='true'
   export INPUT_CACHE='true'
 
   declare -A -p MOCK_RETURNS=(
   ['/usr/local/bin/docker']="_pull my/repository:latest" # errors when pulled
-  ['/usr/bin/date']="197001010101"
+  ['/usr/bin/date']="19700101"
   ) > mockReturns
 
   run /entrypoint.sh
 
   expectMockCalled "/usr/local/bin/docker login -u USERNAME --password-stdin
 /usr/local/bin/docker pull my/repository:latest
-/usr/bin/date +%Y%m%d%H%M%S
-/usr/local/bin/docker build -t my/repository:latest -t my/repository:19700101010112169e .
+/usr/bin/date +%Y%m%d
+/usr/local/bin/docker build -t my/repository:latest -t my/repository:1970010112169e .
 /usr/local/bin/docker push my/repository:latest
-/usr/local/bin/docker push my/repository:19700101010112169e
+/usr/local/bin/docker push my/repository:1970010112169e
 /usr/local/bin/docker logout"
 }
 
@@ -217,16 +217,16 @@ teardown() {
 
   declare -A -p MOCK_RETURNS=(
   ['/usr/local/bin/docker']=""
-  ['/usr/bin/date']="197001010101"
+  ['/usr/bin/date']="19700101"
   ) > mockReturns
 
   run /entrypoint.sh
 
   expectMockCalled "/usr/local/bin/docker login -u USERNAME --password-stdin
-/usr/bin/date +%Y%m%d%H%M%S
-/usr/local/bin/docker build -f MyDockerFileName -t my/repository:latest -t my/repository:19700101010112169e .
+/usr/bin/date +%Y%m%d
+/usr/local/bin/docker build -f MyDockerFileName -t my/repository:latest -t my/repository:1970010112169e .
 /usr/local/bin/docker push my/repository:latest
-/usr/local/bin/docker push my/repository:19700101010112169e
+/usr/local/bin/docker push my/repository:1970010112169e
 /usr/local/bin/docker logout"
 }
 
@@ -238,17 +238,17 @@ teardown() {
 
   declare -A -p MOCK_RETURNS=(
   ['/usr/local/bin/docker']=""
-  ['/usr/bin/date']="197001010101"
+  ['/usr/bin/date']="19700101"
   ) > mockReturns
 
   run /entrypoint.sh
 
   expectMockCalled "/usr/local/bin/docker login -u USERNAME --password-stdin
 /usr/local/bin/docker pull my/repository:latest
-/usr/bin/date +%Y%m%d%H%M%S
-/usr/local/bin/docker build -f MyDockerFileName --cache-from my/repository:latest -t my/repository:latest -t my/repository:19700101010112169e .
+/usr/bin/date +%Y%m%d
+/usr/local/bin/docker build -f MyDockerFileName --cache-from my/repository:latest -t my/repository:latest -t my/repository:1970010112169e .
 /usr/local/bin/docker push my/repository:latest
-/usr/local/bin/docker push my/repository:19700101010112169e
+/usr/local/bin/docker push my/repository:1970010112169e
 /usr/local/bin/docker logout"
 }
 
